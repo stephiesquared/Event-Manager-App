@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" />
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= javascript_include_tag "google_maps" %>
+    
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_tag %>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar" style="background-color: #00acdf;">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">What is Happening in Colorado Today?</a>
+        <div class="align-right row">
+          <% if user_signed_in? %>
+            <div class="form-inline">
+              <button class="btn btn-outline-success" type="button">
+                <a class="nav-link" href="/users/edit">Profile</a>
+              </button>
+              <button class="btn btn-outline-success" type="button">
+                <%= link_to 'Sign Out', destroy_user_session_path %>
+              </button>
+            </div>
+          <% else %>
+            <div class="form-inline">
+              <button class="btn btn-outline-success" type="button">
+                <a class="nav-link" href="/users/sign_in?">Login</a>
+              </button>
+              <button class="btn btn-outline-success" type="button">
+                <a class="nav-link" href="/users/sign_up">New User</a>
+              </button>
+            </div>
+            
+          <% end %>
+        </div>
+      </div>
+    </nav>
+    
+    <%= yield %>
+
+  </body>
+  
+</html>

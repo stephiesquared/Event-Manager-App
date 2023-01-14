@@ -1,0 +1,24 @@
+#map {
+    float: left !important;
+    margin: 1rem 0 0 1rem !important;
+    height: 40rem !important;
+    width: 40rem !important;
+    border-radius: 5px;
+}
+
+.coordinate-hidden {
+    font-size: 0px;
+    margin-bottom: 0.0rem !important;
+    border-radius: 0px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-coordinate-hidden {
+    font-size: 0px;
+    margin-bottom: 0.0rem !important;
+    border-radius: 0px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+

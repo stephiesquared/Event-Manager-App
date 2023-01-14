@@ -1,0 +1,24 @@
+/var/lib/gems/2.7.0/gems/json-1.8.6/lib/json/common.rb:155: warning: Using the last argument as keyword parameters is deprecated
+/usr/lib/ruby/2.7.0/net/protocol.rb:66: warning: already initialized constant Net::ProtocRetryError
+/var/lib/gems/2.7.0/gems/net-protocol-0.1.3/lib/net/protocol.rb:68: warning: previous definition of ProtocRetryError was here
+/usr/lib/ruby/2.7.0/net/protocol.rb:206: warning: already initialized constant Net::BufferedIO::BUFSIZE
+/var/lib/gems/2.7.0/gems/net-protocol-0.1.3/lib/net/protocol.rb:208: warning: previous definition of BUFSIZE was here
+/usr/lib/ruby/2.7.0/net/protocol.rb:503: warning: already initialized constant Net::NetPrivate::Socket
+/var/lib/gems/2.7.0/gems/net-protocol-0.1.3/lib/net/protocol.rb:504: warning: previous definition of Socket was here
+rails aborted!
+StandardError: An error has occurred, this and all later migrations canceled:
+
+SQLite3::SQLException: duplicate column name: date
+/root/group1_fall2022/db/migrate/20221025170025_add_date_to_events.rb:3:in `change'
+
+Caused by:
+ActiveRecord::StatementInvalid: SQLite3::SQLException: duplicate column name: date
+/root/group1_fall2022/db/migrate/20221025170025_add_date_to_events.rb:3:in `change'
+
+Caused by:
+SQLite3::SQLException: duplicate column name: date
+/root/group1_fall2022/db/migrate/20221025170025_add_date_to_events.rb:3:in `change'
+Tasks: TOP => db:migrate
+(See full trace by running task with --trace)
+== 20221025170025 AddDateToEvents: migrating ==================================
+-- add_column(:events, :date, :string)

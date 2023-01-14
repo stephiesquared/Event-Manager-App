@@ -1,0 +1,20 @@
+<body>
+
+  <div class='text-center'>
+    <div class="p-3 mb-2 bg-secondary text-dark bg-opacity-75">
+      <p style="color: green"><%= notice %></p>
+      <%= render @event %>
+    </div>
+  </div>
+
+  <div>
+    <%= link_to "Edit this event", edit_event_path(@event), class: "btn btn-primary" %>
+    <%= link_to "Back to events", events_path, class: "btn btn-secondary" %>
+  </div>
+
+  <br>
+  <div>
+    <%= button_to "Destroy this event", @event, method: :delete, class: "btn btn-danger" %>
+  </div>
+
+</body>

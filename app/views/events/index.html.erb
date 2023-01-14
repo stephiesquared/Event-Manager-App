@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>WHCT - Home Page</title>
+  </head>
+
+  <body>
+
+    <div class="dropdown">
+      <button class="dropbtn">Category</button>
+        <div class="dropdown-content">
+          <%= link_to "All", events_path(:filter_category => 'all')%>
+          <%= link_to "Outdoor", events_path(:filter_category => 'outdoor')%>
+          <%= link_to "Indoor", events_path(:filter_category => 'indoor')%>
+        </div>
+    </div>
+    <br><br>
+
+    <div class='new-event-btn'>
+      <%= link_to 'New Event', new_event_path, class: "btn btn-success" %>
+    </div>
+
+    <div class="event-list-overflow">
+      <ul class="event-list list-group" id="temp_events">
+        <% @events.each do |event| %>
+          <li class="list-group-item list-group-item-action" aria-current="true">
+            <b><%= event.title %></b><br>
+            <b>Description:</b><br>
+            <%= event.description %><br>
+            <b>Location: </b>
+            <%= event.location %><br>
+            <b>Category: </b>
+            <%= event.category %><br>
+            <b>Date: </b>
+            <%= event.date %><br>
+            <div style="text-align:center"><%= link_to "Show this event", event, class: "btn btn-primary"%></div>
+            <div class="coordinate-hidden">
+              <div id="latitude"><%= event.latitude %><br></div>
+              <div id="longitude"><%= event.longitude %></div>
+            </div>
+          </li> 
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="softcard">
+      <div class="calendar-bar">
+        <button class="prev soft-btn"><i class="fas fa-chevron-left"></i></button>
+        <div class="current-month"></div>
+        <button class="next soft-btn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="calendar">
+        <div class="weekdays-name">
+          <div class="days-name">Sa</div>
+          <div class="days-name">Su</div>
+          <div class="days-name">Mo</div>
+          <div class="days-name">Tu</div>
+          <div class="days-name">We</div>
+          <div class="days-name">Th</div>
+          <div class="days-name">Fr</div>
+        </div>
+        <div class="calendar-days"></div>
+      </div>
+      <div class="goto-buttons">
+        <button type="button" class="btn prev-year">Prev Year</button>
+        <button type="button" class="btn today">Today</button>
+        <button type="button" class="btn next-year">Next Year</button>
+      </div>
+    </div>
+  
+    <!-- calendar -->
+    <div id="calendar"></div>
+    <!-- Script for calendar (try and move to another file at some point) -->
+    <script>
+      var currentMonth = document.querySelector(".current-month");
+      var calendarDays = document.querySelector(".calendar-days");
+      var today = new Date();
+      var date = new Date();
+      currentMonth.textContent = date.toLocaleDateString("en-US", {month:'long', year:'numeric'});
+      today.setHours(0,0,0,0);
+      renderCalendar();
+      function renderCalendar(){
+          const prevLastDay = new Date(date.getFullYear(),date.getMonth(),0).getDate();
+          const totalMonthDay = new Date(date.getFullYear(),date.getMonth()+1,0).getDate();
+          const startWeekDay = new Date(date.getFullYear(),date.getMonth(),1).getDay();
+          calendarDays.innerHTML = "";
+          let totalCalendarDay = 6 * 7;
+          for (let i = 0; i < totalCalendarDay; i++) {
+              let day = i-startWeekDay;
+              if(i <= startWeekDay){
+                  // adding previous month days
+                  calendarDays.innerHTML += `<div class='padding-day'>${prevLastDay-i}</div>`;
+              }else if(i <= startWeekDay+totalMonthDay){
+                  // adding this month days
+                  date.setDate(day);
+                  date.setHours(0,0,0,0);           
+                  let dayClass = date.getTime()===today.getTime() ? 'current-day' : 'month-day';
+                  calendarDays.innerHTML += `<div class='${dayClass}'>${day}</div>`;
+              }else{
+                  // adding next month days
+                  calendarDays.innerHTML += `<div class='padding-day'>${day-totalMonthDay}</div>`;
+              }    }}
+      document.querySelectorAll(".soft-btn").forEach(function (element) {
+        element.addEventListener("click", function () {
+          date = new Date(currentMonth.textContent);
+              date.setMonth(date.getMonth() + (element.classList.contains("prev") ? -1 : 1));
+          currentMonth.textContent = date.toLocaleDateString("en-US", {month:'long', year:'numeric'});
+          renderCalendar();
+        });});
+      document.querySelectorAll(".btn").forEach(function (element) {
+        element.addEventListener("click", function () {
+              let btnClass = element.classList;
+              date = new Date(currentMonth.textContent);
+              if(btnClass.contains("today"))
+                  date = new Date();
+              else if(btnClass.contains("prev-year"))
+                  date = new Date(date.getFullYear()-1, 0, 1);
+              else if(btnClass.contains("next-year"))
+                  date = new Date(date.getFullYear()+1, 0, 1);
+          currentMonth.textContent = date.toLocaleDateString("en-US", {month:'long', year:'numeric'});
+          renderCalendar();
+        });
+      });
+    </script>
+
+<!-- google map -->
+    <div id="map"></div>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP2LTrC9jACg55DEmaLS4MIZJOQ4dYrhE&callback=initMap&v=weekly"
+      defer
+    ></script>
+
+    <div id="user-loc" class="user-coordinate-hidden">
+      <% if current_user %>
+        <div id="user-latitude"><%= current_user.latitude %><br/></div>
+      <% end %>
+      <% if current_user %>
+        <div id="user-longitude"><%= current_user.longitude %><br/></div>
+      <% end %>
+    </div>
+
+  </body>
+
+</html>
